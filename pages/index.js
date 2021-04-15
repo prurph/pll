@@ -1,7 +1,18 @@
+/** @jsxImportSource theme-ui */
 import Link from "next/link";
 import Head from "../components/Head";
+import { getSortedPosts } from "../lib/posts";
 
-export default function Home() {
+// Static generation with data using `getStaticProps`. Exporting this async
+// function along with a page component causes Next.js to run this function
+// at build time when generating the static content, and to pass the result
+// as props to the component.
+export async function getStaticProps() {
+  const sortedPosts = getSortedPosts();
+  return { props: { sortedPosts } };
+}
+
+export default function Home({ sortedPosts }) {
   return (
     <div className="container">
       <Head>
@@ -15,6 +26,24 @@ export default function Home() {
             <a>first post!</a>
           </Link>
         </h1>
+
+        {sortedPosts.map(({ id, date, title }) => (
+          <li key={id}>
+            {/* POC of sx for themed-ui custom css */}
+            <p
+              sx={{
+                color: "primary",
+                backgroundColor: "tomato",
+              }}
+            >
+              {title}
+              <br />
+              {id}
+              <br />
+              {date}
+            </p>
+          </li>
+        ))}
 
         <p className="description">
           Get started by editing <code>pages/index.js</code>
