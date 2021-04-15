@@ -11,7 +11,7 @@ export default function Home() {
       <main>
         <h1 className="title">
           Check out my{" "}
-          <Link href="posts/first-post">
+          <Link href="/posts/first-post">
             <a>first post!</a>
           </Link>
         </h1>
