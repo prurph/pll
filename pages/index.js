@@ -7,6 +7,8 @@ import { getSortedPosts } from "../lib/posts";
 // function along with a page component causes Next.js to run this function
 // at build time when generating the static content, and to pass the result
 // as props to the component.
+// To use server-side rendering (instead of static at build time), define
+// `getServerSideProps` instead.
 export async function getStaticProps() {
   const sortedPosts = getSortedPosts();
   return { props: { sortedPosts } };
