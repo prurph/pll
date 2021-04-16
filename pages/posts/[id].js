@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { getPostData, getPostIds } from "../../lib/posts";
+import Head from "../../components/Head";
 import Layout from "../../components/Layout";
 
 // Static generation of pages with dyanmic routes
@@ -23,18 +25,28 @@ export async function getStaticPaths() {
 
 // Fetch data for a blog post with a given id
 export async function getStaticProps({ params }) {
-  return { props: { postData: getPostData(params.id) } };
+  const postData = await getPostData(params.id);
+  return { props: { postData } };
 }
 
 // This component will get those static props!
 export default function Post({ postData }) {
   return (
     <Layout>
+      <Head>
+        <title>{postData.title}</title>
+      </Head>
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+      <br />
       {postData.title}
       <br />
       {postData.id}
       <br />
       {postData.date}
+      <br />
+      <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
     </Layout>
   );
 }
